@@ -5,17 +5,14 @@ import tk.ontes.past.Side;
 import tk.ontes.past.area.Area;
 import tk.ontes.past.entity.Entity;
 
-import java.util.Random;
-
 public class Dirt extends Tile {
 
     private int textureNum;
 
-    public Dirt( int x, int y, Area area) {
-        super(area);
+    public Dirt( int x, int y, int textureNum, Area area) {
+        super(true, area);
         set(x, y, 16, 16);
-        collidable = true;
-        textureNum = new Random().nextInt(3);
+        this.textureNum = textureNum;
     }
 
     @Override

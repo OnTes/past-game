@@ -47,7 +47,7 @@ public abstract class Entity extends Rectangle{
         Array<Tile> collidedTiles = new Array<Tile>();
 
         for(Tile tile: area.tiles) {
-            if(tile.collidable && overlaps(tile)) {
+            if(tile.canCollide && overlaps(tile)) {
                 collidedTiles.add(tile);
             }
         }

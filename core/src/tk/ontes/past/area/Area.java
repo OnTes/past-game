@@ -21,11 +21,12 @@ public abstract class Area {
     }
 
     public void draw(PastGame game) {
-        for (int i = 0; i < tiles.size; i++) {
-            tiles.get(i).draw(game);
-        }
+
         for (int i = 0; i < entities.size; i++) {
             entities.get(i).draw(game);
+        }
+        for (int i = 0; i < tiles.size; i++) {
+            tiles.get(i).draw(game);
         }
     }
 

@@ -9,9 +9,10 @@ import tk.ontes.past.entity.Entity;
 public abstract class Tile extends Rectangle {
     private Area area;
 
-    public boolean collidable = false;
+    public boolean canCollide = false;
 
-    public Tile(Area area) {
+    public Tile(boolean canCollide, Area area) {
+        this.canCollide = canCollide;
         this.area = area;
     }
 
