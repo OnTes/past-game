@@ -1,24 +1,36 @@
 package tk.ontes.past.tile;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.XmlReader;
+import com.badlogic.gdx.utils.XmlWriter;
 import tk.ontes.past.PastGame;
 import tk.ontes.past.Side;
 import tk.ontes.past.area.Area;
 import tk.ontes.past.entity.Entity;
 
+import java.io.IOException;
+
 public class DirtGrass extends Tile {
 
     private int textureNum;
 
-
-    public DirtGrass(int x, int y, int textureNum, Area area) {
-        super(true, area);
-        set(x, y, 16, 16);
+    public DirtGrass(float x, float y, int textureNum, Area area) {
+        super(x, y, 16, 16, true, ID.DIRT_GRASS, area);
         this.textureNum = textureNum;
     }
 
+    public DirtGrass(XmlReader.Element xml, Area area) {
+        this(xml.getFloat("x"), xml.getFloat("y"), xml.getInt("t"), area);
+    }
+
     @Override
-    public void draw(PastGame game) {
-        game.batch.draw(game.assets.texGrass, x-2, y-2, textureNum*20, 0, 20, 20);
+    public void save(XmlWriter xml) {
+        super.save(xml);
+        try {
+            xml.attribute("t", textureNum);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -29,5 +41,10 @@ public class DirtGrass extends Tile {
     @Override
     public void entityCollision(Entity entity, Side side) {
 
+    }
+
+    @Override
+    public void draw(PastGame game) {
+        game.batch.draw(game.assets.get("textures/grass.png", Texture.class), x-2, y-2, textureNum*20, 0, 20, 20);
     }
 }

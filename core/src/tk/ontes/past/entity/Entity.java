@@ -2,26 +2,42 @@ package tk.ontes.past.entity;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.XmlReader;
+import com.badlogic.gdx.utils.XmlWriter;
 import tk.ontes.past.PastGame;
 import tk.ontes.past.Side;
 import tk.ontes.past.area.Area;
 import tk.ontes.past.tile.Tile;
 
+import java.io.IOException;
+
 public abstract class Entity extends Rectangle{
 
-    private static final float COLLISON_OFFSET = 0.001f;
+    private static final float COLLISION_OFFSET = 0.001f;
 
     private Area area;
+    public int id;
 
-    public Entity(Area area) {
+    public Entity(float x, float y, float width, float height, int id, Area area) {
+        super(x, y, width, height);
+        this.id = id;
         this.area = area;
     }
 
-    public abstract void draw(PastGame game);
-    public abstract void update(float delta);
+    public void save(XmlWriter xml) {
+        try {
+            xml.attribute("id", id);
+            xml.attribute("x", x);
+            xml.attribute("y", y);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public abstract void update(float delta);
     public abstract void entityCollision(Entity entity, Side side, boolean didIt);
     public abstract void tileCollision(Tile tile, Side side);
+    public abstract void draw(PastGame game);
 
     protected void moveX(float dist) {
         if(dist == 0) return;
@@ -93,10 +109,10 @@ public abstract class Entity extends Rectangle{
 
     @Override
     public boolean overlaps(Rectangle r) {
-        return x + COLLISON_OFFSET < r.x + r.width
-                && x + width > r.x + COLLISON_OFFSET
-                && y + COLLISON_OFFSET < r.y + r.height
-                && y + height > r.y + COLLISON_OFFSET;
+        return x + COLLISION_OFFSET < r.x + r.width
+                && x + width > r.x + COLLISION_OFFSET
+                && y + COLLISION_OFFSET < r.y + r.height
+                && y + height > r.y + COLLISION_OFFSET;
     }
 
     private Side getOppositeSide(Side side) {
@@ -112,5 +128,17 @@ public abstract class Entity extends Rectangle{
             default:
                 return side;
         }
+    }
+
+    public static Entity fromXml(XmlReader.Element xml, Area area){
+        switch (xml.getInt("id")) {
+            case Entity.ID.PLAYER_ENTITY:
+                return new PlayerEntity(xml, area);
+        }
+        return null;
+    }
+
+    public static class ID {
+        public static final int PLAYER_ENTITY = 0;
     }
 }
