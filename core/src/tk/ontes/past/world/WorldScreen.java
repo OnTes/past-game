@@ -1,4 +1,4 @@
-package tk.ontes.past.screen;
+package tk.ontes.past.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -6,9 +6,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import tk.ontes.past.PastGame;
-import tk.ontes.past.Player;
-import tk.ontes.past.area.Area;
-import tk.ontes.past.world.World;
+import tk.ontes.past.player.Player;
+import tk.ontes.past.world.area.Area;
+import tk.ontes.past.world.area.AreaScreen;
 
 public class WorldScreen implements Screen {
 
@@ -30,14 +30,11 @@ public class WorldScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        // Handle input
-        handleInput(delta);
-
         // Update
         world.update(delta);
 
         // Update camera
-        camera.position.set(player.x, player.y, 0);
+        camera.position.set(player.area.x, player.area.y, 0);
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
 
@@ -47,22 +44,8 @@ public class WorldScreen implements Screen {
 
         // Render
         game.batch.begin();
-        world.render(game);
+        world.render(game.batch);
         game.batch.end();
-    }
-
-    private void handleInput(float delta) {
-        // Enter area
-        if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            for(Area area: world.areas) {
-                if(area.x == player.x && area.y == player.y) {
-                    if(area.tiles.size == 0) area.generate();
-                    game.setScreen(new AreaScreen(area, game));
-                }
-            }
-        }
-        // Movement
-        //TODO
     }
 
     @Override

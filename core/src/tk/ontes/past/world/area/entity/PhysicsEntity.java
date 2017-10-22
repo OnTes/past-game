@@ -1,7 +1,7 @@
-package tk.ontes.past.entity;
+package tk.ontes.past.world.area.entity;
 
 import com.badlogic.gdx.utils.XmlWriter;
-import tk.ontes.past.area.Area;
+import tk.ontes.past.world.area.Area;
 
 import java.io.IOException;
 

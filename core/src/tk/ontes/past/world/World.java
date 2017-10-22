@@ -1,10 +1,11 @@
 package tk.ontes.past.world;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlWriter;
 import tk.ontes.past.PastGame;
-import tk.ontes.past.area.Area;
+import tk.ontes.past.world.area.Area;
 
 import java.io.IOException;
 
@@ -41,17 +42,28 @@ public abstract class World {
     }
 
     public void update(float delta) {
-
+        game.player.updateOnMap(delta);
+        for(int i = 0; i < areas.size; i++) {
+            areas.get(i).updateOnMap(delta);
+        }
     }
 
-    public void render(PastGame game) {
-        /*for(int i = 0; i < areas.size; i++) {
-            areas.get(i).draw(game);
-        }*/
+    public void render(SpriteBatch batch) {
+        game.player.drawOnMap(batch);
+        for(int i = 0; i < areas.size; i++) {
+            areas.get(i).drawOnMap(batch);
+        }
+    }
+
+
+    public static World find(PastGame game, int worldNum) {
+        for(World world: game.worlds) {
+            if(world.num == worldNum) return world;
+        }
+        return null;
     }
 
     public static World fromXml(XmlReader.Element xml, PastGame game) {
-        System.out.println(xml.getInt("id"));
         switch (xml.getInt("id")) {
             case ID.FLAT_GRASS:
                 return new FlatGrassWorld(xml, game);

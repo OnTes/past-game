@@ -1,11 +1,10 @@
-package tk.ontes.past.area;
+package tk.ontes.past.world.area;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.XmlReader;
-import tk.ontes.past.PastGame;
-import tk.ontes.past.entity.PlayerEntity;
-import tk.ontes.past.tile.Dirt;
-import tk.ontes.past.tile.DirtGrass;
+import tk.ontes.past.world.area.tile.Dirt;
+import tk.ontes.past.world.area.tile.DirtGrass;
 import tk.ontes.past.world.World;
 
 public class FlatGrassArea extends Area {
@@ -17,7 +16,7 @@ public class FlatGrassArea extends Area {
     }
 
     public FlatGrassArea(XmlReader.Element xml, World world) {
-        this(xml.getInt("x"), xml.getInt("y"), world);
+        this(xml.getInt("xOnMap"), xml.getInt("yOnMap"), world);
     }
 
     @Override
@@ -27,11 +26,15 @@ public class FlatGrassArea extends Area {
             tiles.add(new Dirt(i*16, 16, MathUtils.random(2), this));
             tiles.add(new DirtGrass(i*16, 2*16, MathUtils.random(2), this));
         }
-        entities.add(new PlayerEntity((WIDTH*16)/2 - 6, 3*16, 0, 0, true, this));
     }
 
     @Override
-    public void draw(PastGame game) {
-        //game.batch.draw(game.assets.texFlatGrass, x-2, y-2);
+    public void updateOnMap(float delta) {
+
+    }
+
+    @Override
+    public void drawOnMap(SpriteBatch batch) {
+        //game.batch.draw(game.assets.texFlatGrass, xOnMap-2, yOnMap-2);
     }
 }

@@ -2,7 +2,7 @@ package tk.ontes.past.world;
 
 import com.badlogic.gdx.utils.XmlReader;
 import tk.ontes.past.PastGame;
-import tk.ontes.past.area.FlatGrassArea;
+import tk.ontes.past.world.area.FlatGrassArea;
 
 public class FlatGrassWorld extends World{
 
